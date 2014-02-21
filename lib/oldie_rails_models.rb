@@ -8,6 +8,10 @@ module OldieRailsModels
     validate *args, on: :create
   end
 
+  def validate_on_update(*args)
+    validate *args, on: :update
+  end
+
   def before_validation_on_create(*args)
     before_validation *args, on: :create
   end
