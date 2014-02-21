@@ -20,6 +20,10 @@ module OldieRailsModels
     before_validation *args, on: :update
   end
 
+  def set_primary_key(*args)
+    self.primary_key = *args
+  end
+
 end
 
 ActiveSupport.on_load(:active_record) do
