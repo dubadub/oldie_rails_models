@@ -36,7 +36,7 @@ if defined? Rails
   ActiveSupport.on_load(:action_controller) do
     module ActionController
       module UrlWriter
-        include Rails.application.routes.url_helpers
+        include Rails.application.routes.url_helpers if Rails.application.present?
       end
     end
   end
