@@ -24,6 +24,8 @@ module OldieRailsModels
     self.primary_key = *args
   end
 
+  def attr_accessible(*args); end
+
 end
 
 ActiveSupport.on_load(:active_record) do
