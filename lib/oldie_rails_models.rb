@@ -24,16 +24,20 @@ module OldieRailsModels
     self.primary_key = *args
   end
 
+  def attr_accessible(*args); end
+
 end
 
-ActiveSupport.on_load(:active_record) do
-  extend OldieRailsModels
-end
+if defined? Rails
+  ActiveSupport.on_load(:active_record) do
+    extend OldieRailsModels
+  end
 
-ActiveSupport.on_load(:action_controller) do
-  module ActionController
-    module UrlWriter
-      include Rails.application.routes.url_helpers
+  ActiveSupport.on_load(:action_controller) do
+    module ActionController
+      module UrlWriter
+        include Rails.application.routes.url_helpers if Rails.application.present?
+      end
     end
   end
 end
