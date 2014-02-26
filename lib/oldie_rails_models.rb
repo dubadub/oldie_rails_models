@@ -21,7 +21,11 @@ module OldieRailsModels
   end
 
   def set_primary_key(*args)
-    self.primary_key = *args
+    # self.primary_key = *args
+  end
+
+  def conditions(*args)
+    where *args
   end
 
   def attr_accessible(*args); end
