@@ -5,19 +5,27 @@ module OldieRailsModels
   end
 
   def validate_on_create(*args)
-    validate *args, on: :create
+    new_args = [args[0]]
+    new_args << args[1].merge(on: :create) if args[1].present?
+    validate new_args
   end
 
   def validate_on_update(*args)
-    validate *args, on: :update
+    new_args = [args[0]]
+    new_args << args[1].merge(on: :update) if args[1].present?
+    validate new_args
   end
 
   def before_validation_on_create(*args)
-    before_validation *args, on: :create
+    new_args = [args[0]]
+    new_args << args[1].merge(on: :create) if args[1].present?
+    before_validation new_args
   end
 
   def before_validation_on_update(*args)
-    before_validation *args, on: :update
+    new_args = [args[0]]
+    new_args << args[1].merge(on: :update) if args[1].present?
+    before_validation new_args
   end
 
   def set_primary_key(*args)
