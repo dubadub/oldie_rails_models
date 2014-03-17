@@ -1,7 +1,7 @@
 require 'oldie_rails_models/model'
+require 'oldie_rails_models/mailer'
 
-module OldieRailsModels
-end
+module OldieRailsModels; end
 
 if defined? Rails
   ActiveSupport.on_load(:active_record) do
@@ -14,6 +14,10 @@ if defined? Rails
         include Rails.application.routes.url_helpers if Rails.application.present?
       end
     end
+  end
+
+  ActiveSupport.on_load(:action_mailer) do
+    extend OldieRailsModels::Mailer
   end
 
 end
