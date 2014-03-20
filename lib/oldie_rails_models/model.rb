@@ -2,28 +2,45 @@ module OldieRailsModels
   module Model
 
     def named_scope(*args)
-      scope *args
+      scope args.shift, -> { where *args }
     end
 
     def validate_on_create(*args)
-      args.last.merge(on: :create) if args.last.is_a?(Hash)
-      validate *args
+      validate *add_parameter(args, { on: :create })
     end
 
     def validate_on_update(*args)
-      args.last.merge(on: :update) if args.last.is_a?(Hash)
-      validate *args
+      validate *add_parameter(args, { on: :update })
     end
 
     def before_validation_on_create(*args)
       args.last.merge(on: :create) if args.last.is_a?(Hash)
-      before_validation *args
+      before_validation *add_parameter(args, { on: :create })
     end
 
     def before_validation_on_update(*args)
-      args.last.merge(on: :update) if args.last.is_a?(Hash)
-      before_validation *args
+      before_validation *add_parameter(args, { on: :update })
     end
+
+    def before_destroy
+
+    end
+
+    def validates_numericality_of
+
+    end
+
+   #  validates_acceptance_of (<= v2.3.8)
+   # validates_associated (<= v2.3.8)
+   # validates_confirmation_of (<= v2.3.8)
+   # validates_exclusion_of (<= v2.3.8)
+   # validates_format_of (<= v2.3.8)
+   # validates_inclusion_of (<= v2.3.8)
+   # validates_length_of (<= v2.3.8)
+   # validates_numericality_of (<= v2.3.8)
+   # validates_presence_of (<= v2.3.8)
+   # validates_size_of (<= v2.3.8)
+   # validates_uniqueness_of (<= v2.3.8)
 
     def set_primary_key(*args)
       # self.primary_key = *args
@@ -42,6 +59,16 @@ module OldieRailsModels
     end
 
     def attr_accessible(*args); end
+
+    private
+
+    def add_parameter(arr, h)
+      if arr.last.is_a?(Hash)
+        arr.last.merge(h) if arr.last.is_a?(Hash)
+      else
+        arr << h
+      end
+    end
 
   end
 end
