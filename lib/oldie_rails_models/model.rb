@@ -25,9 +25,19 @@ module OldieRailsModels
             s.limit(value)
           when :include
             s.includes(value)
+          when :offset
+            s.offset(value)
+          when :group
+            s.group(value)
+          when :having
+            s.having(value)
           end
         end
       }
+    end
+
+    def scoped
+      scope
     end
 
     def validate_on_create(*args)
