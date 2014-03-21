@@ -21,6 +21,10 @@ module OldieRailsModels
             s.order(value)
           when :joins
             s.joins(value)
+          when :limit
+            s.limit(value)
+          when :include
+            s.includes(value)
           end
         end
       }
