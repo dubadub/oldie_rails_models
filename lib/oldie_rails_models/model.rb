@@ -2,7 +2,28 @@ module OldieRailsModels
   module Model
 
     def named_scope(*args)
-      scope args.shift, -> { where *args }
+      name, opts, block = args
+
+      scope name, ->(*p) {
+
+        h = case opts
+        when Hash
+          opts
+        when Proc
+          opts.call(*p)
+        end
+
+        h.inject(self) do |s, (key, value)|
+          case key
+          when :conditions
+            s.where(value)
+          when :order
+            s.order(value)
+          when :joins
+            s.joins(value)
+          end
+        end
+      }
     end
 
     def validate_on_create(*args)
@@ -14,7 +35,6 @@ module OldieRailsModels
     end
 
     def before_validation_on_create(*args)
-      args.last.merge(on: :create) if args.last.is_a?(Hash)
       before_validation *add_parameter(args, { on: :create })
     end
 
@@ -22,25 +42,21 @@ module OldieRailsModels
       before_validation *add_parameter(args, { on: :update })
     end
 
-    def before_destroy
+    # def before_destroy
 
-    end
+    # end
 
-    def validates_numericality_of
-
-    end
-
-   #  validates_acceptance_of (<= v2.3.8)
-   # validates_associated (<= v2.3.8)
-   # validates_confirmation_of (<= v2.3.8)
-   # validates_exclusion_of (<= v2.3.8)
-   # validates_format_of (<= v2.3.8)
-   # validates_inclusion_of (<= v2.3.8)
-   # validates_length_of (<= v2.3.8)
-   # validates_numericality_of (<= v2.3.8)
-   # validates_presence_of (<= v2.3.8)
-   # validates_size_of (<= v2.3.8)
-   # validates_uniqueness_of (<= v2.3.8)
+    # validates_acceptance_of (<= v2.3.8)
+    # validates_associated (<= v2.3.8)
+    # validates_confirmation_of (<= v2.3.8)
+    # validates_exclusion_of (<= v2.3.8)
+    # validates_format_of (<= v2.3.8)
+    # validates_inclusion_of (<= v2.3.8)
+    # validates_length_of (<= v2.3.8)
+    # validates_numericality_of (<= v2.3.8)
+    # validates_presence_of (<= v2.3.8)
+    # validates_size_of (<= v2.3.8)
+    # validates_uniqueness_of (<= v2.3.8)
 
     def set_primary_key(*args)
       # self.primary_key = *args
