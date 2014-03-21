@@ -36,8 +36,8 @@ module OldieRailsModels
       }
     end
 
-    def scoped
-      scope
+    def scoped(*args)
+      scope(*args)
     end
 
     def validate_on_create(*args)
