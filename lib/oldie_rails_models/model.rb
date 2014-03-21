@@ -13,31 +13,31 @@ module OldieRailsModels
           opts.call(*p)
         end
 
-        h.inject(self) do |s, (key, value)|
-          case key
-          when :conditions
-            s.where(value)
-          when :order
-            s.order(value)
-          when :joins
-            s.joins(value)
-          when :limit
-            s.limit(value)
-          when :include
-            s.includes(value)
-          when :offset
-            s.offset(value)
-          when :group
-            s.group(value)
-          when :having
-            s.having(value)
-          end
-        end
+        scoped(h)
       }
     end
 
-    def scoped(*args)
-      scope(*args)
+    def scoped(h)
+      h.inject(self) do |s, (key, value)|
+        case key
+        when :conditions
+          s.where(value)
+        when :order
+          s.order(value)
+        when :joins
+          s.joins(value)
+        when :limit
+          s.limit(value)
+        when :include
+          s.includes(value)
+        when :offset
+          s.offset(value)
+        when :group
+          s.group(value)
+        when :having
+          s.having(value)
+        end
+      end
     end
 
     def validate_on_create(*args)
