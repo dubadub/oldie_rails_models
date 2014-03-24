@@ -56,36 +56,12 @@ module OldieRailsModels
       before_validation *add_parameter(args, { on: :update })
     end
 
-    # def before_destroy
-
-    # end
-
-    # validates_acceptance_of (<= v2.3.8)
-    # validates_associated (<= v2.3.8)
-    # validates_confirmation_of (<= v2.3.8)
-    # validates_exclusion_of (<= v2.3.8)
-    # validates_format_of (<= v2.3.8)
-    # validates_inclusion_of (<= v2.3.8)
-    # validates_length_of (<= v2.3.8)
-    # validates_numericality_of (<= v2.3.8)
-    # validates_presence_of (<= v2.3.8)
-    # validates_size_of (<= v2.3.8)
-    # validates_uniqueness_of (<= v2.3.8)
-
     def set_primary_key(*args)
       # self.primary_key = *args
     end
 
     def set_table_name(*args)
       self.table_name = *args
-    end
-
-    def conditions(*args)
-      where *args
-    end
-
-    def conditions(*args)
-      where *args
     end
 
     def attr_accessible(*args); end
