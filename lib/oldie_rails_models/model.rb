@@ -4,21 +4,23 @@ module OldieRailsModels
     def named_scope(*args)
       name, opts, block = args
 
-      scope name, ->(*p) {
+      unless self.respond_to?(name.to_sym)
+        scope name, ->(*p) {
 
-        h = case opts
-        when Hash
-          opts
-        when Proc
-          opts.call(*p)
-        end
+          h = case opts
+          when Hash
+            opts
+          when Proc
+            opts.call(*p)
+          end
 
-        scoped(h)
-      }
+          scoped(h, self)
+        }
+      end
     end
 
-    def scoped(h)
-      h.inject(self) do |s, (key, value)|
+    def scoped(h, parent)
+      h.inject(parent) do |s, (key, value)|
         case key
         when :conditions
           s.where(value)
@@ -36,6 +38,8 @@ module OldieRailsModels
           s.group(value)
         when :having
           s.having(value)
+        when :finder_sql
+          s.find_by_sql(value)
         end
       end
     end
@@ -66,6 +70,22 @@ module OldieRailsModels
 
     def attr_accessible(*args); end
 
+    def has_many(*args)
+      name, opts = args
+      if opts
+        finders = {}
+        [:conditions, :order, :joins, :limit, :include, :offset, :group, :having, :finder_sql].each do |k|
+          if opts[k]
+            finders[k] = opts[k]
+            opts.delete(k)
+          end
+        end
+        super(name, -> { scoped(finders, self) }, opts)
+      else
+        super(name, opts)
+      end
+    end
+
     private
 
     def add_parameter(arr, h)
@@ -78,3 +98,5 @@ module OldieRailsModels
 
   end
 end
+
+
