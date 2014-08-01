@@ -4,19 +4,19 @@ module OldieRailsModels
     def named_scope(*args)
       name, opts, block = args
 
-      unless self.respond_to?(name.to_sym)
-        scope name, ->(*p) {
 
-          h = case opts
-          when Hash
-            opts
-          when Proc
-            opts.call(*p)
-          end
+      scope name, ->(*p) {
 
-          scoped(h, self)
-        }
-      end
+        h = case opts
+        when Hash
+          opts
+        when Proc
+          opts.call(*p)
+        end
+
+        parent_scoped(h, self)
+      }
+
     end
 
     def default_scope(*args)
@@ -36,7 +36,7 @@ module OldieRailsModels
 
     end
 
-    def scoped(h)
+    def scoped(*h)
       parent_scoped(h, self)
     end
 
