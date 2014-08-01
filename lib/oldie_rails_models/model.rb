@@ -31,12 +31,16 @@ module OldieRailsModels
           opts.call(*p)
         end
 
-        scoped(h, self)
+        parent_scoped(h, self)
       }
 
     end
 
-    def scoped(h, parent)
+    def scoped(h)
+      parent_scoped(h, self)
+    end
+
+    def parent_scoped(h, parent)
       h.inject(parent) do |s, (key, value)|
         case key
         when :conditions
@@ -99,7 +103,7 @@ module OldieRailsModels
             opts.delete(k)
           end
         end
-        super(name, -> { scoped(finders, self) }, opts)
+        super(name, -> { parent_scoped(finders, self) }, opts)
       else
         super(name, opts)
       end
