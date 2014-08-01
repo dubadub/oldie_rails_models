@@ -19,6 +19,23 @@ module OldieRailsModels
       end
     end
 
+    def default_scope(*args)
+      opts, block = args
+
+      super ->(*p) {
+
+        h = case opts
+        when Hash
+          opts
+        when Proc
+          opts.call(*p)
+        end
+
+        scoped(h, self)
+      }
+
+    end
+
     def scoped(h, parent)
       h.inject(parent) do |s, (key, value)|
         case key
