@@ -4,7 +4,6 @@ module OldieRailsModels
     def named_scope(*args)
       name, opts, block = args
 
-
       scope name, ->(*p) {
 
         h = case opts
@@ -36,7 +35,8 @@ module OldieRailsModels
 
     end
 
-    def scoped(*h)
+    def scoped(h)
+      p h
       parent_scoped(h, self)
     end
 
