@@ -41,6 +41,8 @@ module OldieRailsModels
         case key
         when :conditions
           s.where(value)
+        when :select
+          s.select(value)
         when :order
           s.order(value)
         when :joins
