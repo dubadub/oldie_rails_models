@@ -36,7 +36,6 @@ module OldieRailsModels
     end
 
     def scoped(h)
-      p h
       parent_scoped(h, self)
     end
 
