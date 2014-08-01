@@ -49,7 +49,7 @@ module OldieRailsModels
           s.joins(value)
         when :limit
           s.limit(value)
-        when :include
+        when :includes
           s.includes(value)
         when :offset
           s.offset(value)
