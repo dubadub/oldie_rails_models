@@ -93,19 +93,21 @@ module OldieRailsModels
     def attr_accessible(*args); end
 
     def has_many(*args)
-      name, opts = args
-      if opts
-        finders = {}
-        [:conditions, :order, :joins, :limit, :include, :offset, :group, :having, :finder_sql].each do |k|
-          if opts[k]
-            finders[k] = opts[k]
-            opts.delete(k)
+      name, opts, block = args
+
+      case opts
+        when Hash
+          finders = {}
+          [:conditions, :order, :joins, :limit, :include, :offset, :group, :having, :finder_sql].each do |k|
+            if opts[k]
+              finders[k] = opts[k]
+              opts.delete(k)
+            end
           end
+          super(name, -> { parent_scoped(finders, self) }, opts)
+        else
+          super
         end
-        super(name, -> { parent_scoped(finders, self) }, opts)
-      else
-        super(name, opts)
-      end
     end
 
     private
