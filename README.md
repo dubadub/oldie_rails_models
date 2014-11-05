@@ -1,6 +1,4 @@
 
-Basic support of Rails 2 models in Rails 4.
-
 Oldie_rails_models
 ==================
 
@@ -18,4 +16,4 @@ After that you can import models from old Rails 2 project to Rails 4 and use the
 
 ## Credits
 
-Gem created under support of [https://gettable.ru].
+Gem created under support of https://gettable.ru.
