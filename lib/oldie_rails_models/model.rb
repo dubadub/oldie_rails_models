@@ -39,33 +39,6 @@ module OldieRailsModels
       parent_scoped(h, self)
     end
 
-    def parent_scoped(h, parent)
-      h.inject(parent) do |s, (key, value)|
-        case key
-        when :conditions
-          s.where(value)
-        when :select
-          s.select(value)
-        when :order
-          s.order(value)
-        when :joins
-          s.joins(value)
-        when :limit
-          s.limit(value)
-        when :includes
-          s.includes(value)
-        when :offset
-          s.offset(value)
-        when :group
-          s.group(value)
-        when :having
-          s.having(value)
-        when :finder_sql
-          s.find_by_sql(value)
-        end
-      end
-    end
-
     def validate_on_create(*args)
       validate *add_parameter(args, { on: :create })
     end
@@ -98,7 +71,17 @@ module OldieRailsModels
       case opts
         when Hash
           finders = {}
-          [:conditions, :order, :joins, :limit, :include, :offset, :group, :having, :finder_sql].each do |k|
+          [
+            :conditions,
+            :order,
+            :joins,
+            :limit,
+            :include,
+            :offset,
+            :group,
+            :having,
+            :finder_sql
+          ].each do |k|
             if opts[k]
               finders[k] = opts[k]
               opts.delete(k)
@@ -117,6 +100,36 @@ module OldieRailsModels
         arr.last.merge(h) if arr.last.is_a?(Hash)
       else
         arr << h
+      end
+    end
+
+
+    def parent_scoped(h, parent)
+      h.inject(parent) do |s, (key, value)|
+        case key
+        when :conditions
+          s.where(value)
+        when :select
+          s.select(value)
+        when :order
+          s.order(value)
+        when :joins
+          s.joins(value)
+        when :limit
+          s.limit(value)
+        when :includes
+          s.includes(value)
+        when :offset
+          s.offset(value)
+        when :group
+          s.group(value)
+        when :having
+          s.having(value)
+        when :finder_sql
+          s.find_by_sql(value)
+        when :count
+          s.where(value).count
+        end
       end
     end
 
