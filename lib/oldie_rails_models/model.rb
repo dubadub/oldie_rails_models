@@ -15,7 +15,35 @@ module OldieRailsModels
 
         parent_scoped(h, self)
       }
+    end
 
+    def parent_scoped(h, parent)
+      h.inject(parent) do |s, (key, value)|
+        case key
+        when :conditions
+          s.where(value)
+        when :select
+          s.select(value)
+        when :order
+          s.order(value)
+        when :joins
+          s.joins(value)
+        when :limit
+          s.limit(value)
+        when :includes
+          s.includes(value)
+        when :offset
+          s.offset(value)
+        when :group
+          s.group(value)
+        when :having
+          s.having(value)
+        when :finder_sql
+          s.find_by_sql(value)
+        when :count
+          s.where(value).count
+        end
+      end
     end
 
     def default_scope(*args)
@@ -32,7 +60,6 @@ module OldieRailsModels
 
         parent_scoped(h, self)
       }
-
     end
 
     def scoped(h)
@@ -100,36 +127,6 @@ module OldieRailsModels
         arr.last.merge(h) if arr.last.is_a?(Hash)
       else
         arr << h
-      end
-    end
-
-
-    def parent_scoped(h, parent)
-      h.inject(parent) do |s, (key, value)|
-        case key
-        when :conditions
-          s.where(value)
-        when :select
-          s.select(value)
-        when :order
-          s.order(value)
-        when :joins
-          s.joins(value)
-        when :limit
-          s.limit(value)
-        when :includes
-          s.includes(value)
-        when :offset
-          s.offset(value)
-        when :group
-          s.group(value)
-        when :having
-          s.having(value)
-        when :finder_sql
-          s.find_by_sql(value)
-        when :count
-          s.where(value).count
-        end
       end
     end
 
