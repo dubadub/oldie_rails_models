@@ -2,7 +2,7 @@
 Oldie_rails_models
 ==================
 
-Basic support of Rails 2 models in Rails 4. Gem adds ailases for old Rails 2 sintax.
+Basic support of Rails 2 ActiveRecord methods in Rails 4. Gem adds ailases for old Rails 2 sintax.
 
 ## Installation
 
